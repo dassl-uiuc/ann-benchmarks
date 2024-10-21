@@ -214,16 +214,16 @@ def check_module_import_and_constructor(df: Definition) -> bool:
         bool: True if the module can be imported and the constructor exists, False 
         otherwise.
     """
-    status = algorithm_status(df)
-    if status == InstantiationStatus.NO_CONSTRUCTOR:
-        raise Exception(
-            f"{df.module}.{df.constructor}({df.arguments}): error: the module '{df.module}' does not expose the named constructor"
-        )
-    if status == InstantiationStatus.NO_MODULE:
-        logging.warning(
-            f"{df.module}.{df.constructor}({df.arguments}): the module '{df.module}' could not be loaded; skipping"
-        )
-        return False
+    # status = algorithm_status(df)
+    # if status == InstantiationStatus.NO_CONSTRUCTOR:
+    #     raise Exception(
+    #         f"{df.module}.{df.constructor}({df.arguments}): error: the module '{df.module}' does not expose the named constructor"
+    #     )
+    # if status == InstantiationStatus.NO_MODULE:
+    #     logging.warning(
+    #         f"{df.module}.{df.constructor}({df.arguments}): the module '{df.module}' could not be loaded; skipping"
+    #     )
+    #     return False
     
     return True
 
@@ -326,6 +326,7 @@ def main():
 
     if args.algorithm:
         logger.info(f"running only {args.algorithm}")
+        print([d.algorithm for d in definitions])
         definitions = [d for d in definitions if d.algorithm == args.algorithm]
 
     if not args.local:
@@ -334,6 +335,7 @@ def main():
         definitions = list(filter(
             check_module_import_and_constructor, definitions
         ))
+        print([d.algorithm for d in definitions])
 
     definitions = filter_disabled_algorithms(definitions) if not args.run_disabled else definitions
     definitions = limit_algorithms(definitions, args.max_n_algorithms)

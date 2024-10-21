@@ -20,7 +20,7 @@ class FaissHNSW(Faiss):
             X = X.astype(np.float32)
 
         self.index.add(X)
-        faiss.omp_set_num_threads(1)
+        #faiss.omp_set_num_threads(1)
 
     def set_query_arguments(self, ef):
         faiss.cvar.hnsw_stats.reset()
